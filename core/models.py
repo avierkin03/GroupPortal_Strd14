@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+class UserProfile(models.Model):
+    pass
+
+
+class GroupProfile(models.Model):
+    pass
