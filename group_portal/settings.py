@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'materials',
     'polls',
     'portfolio',
-    'votes'
+    'faq',
+    'feedback'
 ]
 
 MIDDLEWARE = [
