@@ -11,3 +11,5 @@ admin.site.register(Material_imgcustom)
 class MaterialImageInline(admin.TabularInline):
     model = Material_imgcustom
     extra = 3  # Кількість порожніх слотів для завантаження, які видно одразу
+
+# Register your models here.

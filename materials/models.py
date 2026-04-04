@@ -51,3 +51,5 @@ class Like(models.Model):
     def total_likes(self):
         return self.likes.count()
 #python manage.py runserver
+
+# Create your models here.

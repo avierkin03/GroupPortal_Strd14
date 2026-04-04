@@ -157,3 +157,6 @@ def upload_file(request):
     else:
         form = Materials_CreateForm()
     return render(request, 'material.html', {'form': form})
+from django.shortcuts import render
+
+# Create your views here.
