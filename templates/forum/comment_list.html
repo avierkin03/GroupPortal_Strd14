@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% block content %}
+    <h1>Forum list</h1>
+    <a href="{% url 'forum-comments-create' pk=forum.id %}">Create new Forum</a>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <a href="#">{{ comment.title }}</a>
+                <p>{{ comment.text }}<p>
+            </li>
+        {% empty %}
+            <li>No comment found.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
