@@ -6,7 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <header></header>
+    <header>
+        <nav>
+            <a href="{% url 'announcements-list' %}">Announcements</a>
+        </nav>
+    </header>
     <main>
         {% block content %}
 

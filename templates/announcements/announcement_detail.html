@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ announcement.title }}</h1>
+    <p>{{ announcement.description }}</p>
+    <p>Publication_date: {{ announcement.publication_date }}</p>
+
+    <a href="{% url 'announcements-list' %}">Return to the menu</a>
+{% endblock %}

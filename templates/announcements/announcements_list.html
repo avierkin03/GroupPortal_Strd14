@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Announcements List</h1>
+
+    <ul>
+        {% for announcement in announcements %}
+            <li>
+                <a href="{% url 'announcement-detail' pk=announcement.id %}">{{ announcement.title}}</a>
+                {% if user.profile == "admin" %}
+                    <a href="{% url 'announcement-delete' pk=announcement.id%}">Delete</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No announcements found.</li>
+        {% endfor %}
+
+
+    </ul>
+{% endblock %}
