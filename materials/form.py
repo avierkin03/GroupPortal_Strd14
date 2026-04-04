@@ -1,5 +1,6 @@
 from django import forms
-from materials.models import Material
+from django.forms import inlineformset_factory
+from materials.models import Material, Material_imgcustom
 
 class Materials_CreateForm(forms.ModelForm):
     class Meta:
@@ -12,22 +13,24 @@ class Materials_CreateForm(forms.ModelForm):
             }),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Робимо поле необов'язковим прямо у формі
-        self.fields['subtitle'].required = False
+    
 
     def __init__(self, *args, **kwargs):
         super(Materials_CreateForm, self).__init__(*args, **kwargs)
-        # Додаємо клас для всіх полів
+        self.fields['subtitle'].required = False
         for field in self.fields:
             self.fields[field].widget.attrs.update({"class": "form-control"})
-        
-        # Перевір, чи поле "date" є у списку fields вище. 
-        # Якщо його немає в Meta fields, цей рядок викличе помилку. 
-        # Якщо воно є, виправ опечатку: "datepicker"
-        if "date" in self.fields:
-            self.fields["date"].widget.attrs["class"] += " my-custom-datepicker"
+    
+ImageFormSet = inlineformset_factory(
+    Material,
+    Material_imgcustom,
+    fields=('image',),
+    extra=1,
+    max_num=3,
+    can_delete=True,
+    validate_max=True
+)
+
 
 
 class Material_FilterForm(forms.Form):

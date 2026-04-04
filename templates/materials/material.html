@@ -31,7 +31,7 @@
     {% endif %}
 
 {% elif material.file_type == 'img' and material.material_img %}
-    <img src="{{ material.material_img.url }}" alt="Зображення" style="max-width: 100%;">
+    <img src="{{ material.material_img.url }}">
 
 {% elif material.file_type == 'file' and material.material_file %}
     <div class="alert alert-info">
