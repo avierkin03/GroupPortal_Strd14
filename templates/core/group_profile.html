@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ group.name }}</h1>
+
+    {% if group.logo %}
+        <img src="{{ group.logo.url }}" alt="Логотип групи" style="max-width: 200px;">
+    {% endif %}
+    <p>{{ group.description|linebreaks }}</p>
+
+    <div>
+        <div>
+            <h5>Ласкаво просимо до порталу!</h5>
+            <p>Використовуйте меню для доступу до опитувань, голосувань, форуму та інших сторінок.</p>
+        </div>
+    </div>
+
+    <h5>Учасники групи</h5>
+    {% if users %}
+        <ul>
+            {% for user in users %}
+                <li>
+                    {{ user.username }} (Роль: {{ user.profile.get_role_display }})
+                    <a href="#">Переглянути портфоліо</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Наразі немає зареєстрованих учасників.</p>
+    {% endif %}
+{% endblock %}
