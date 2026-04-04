@@ -13,12 +13,12 @@ class AnnouncementListViev(ListView):
 
 class AnnouncementDetailedViev(DetailView):
     model = Announcement
-    template_name = "announcements/announcements_detail.html"
+    template_name = "announcements/announcement_detail.html"
     context_object_name = "announcement"
 
 class AnnouncementCreateViev(UserPassesTestMixin,CreateView):
     model = Announcement
-    template_name = "announcements/announcements_form.html"
+    template_name = "announcements/announcement_form.html"
     form_class = TaskForm
     success_url = reverse_lazy("announcements-list")
     def test_func(self):
@@ -26,8 +26,8 @@ class AnnouncementCreateViev(UserPassesTestMixin,CreateView):
 
 class AnnouncementDeleteViev(UserPassesTestMixin,DeleteView):
     model = Announcement
-    template_name = "announcements/announcements_delete.html"
-    form_class = TaskForm
+    template_name = "announcements/announcement_delete.html"
+    #form_class = TaskForm
     success_url = reverse_lazy("announcements-list")
     def test_func(self):
         return self.request.user.profile.role == "admin"

@@ -5,15 +5,15 @@
     <ul>
         {% for announcement in announcements %}
             <li>
-                <a href="{% url 'announcement-detail' pk=announcement.id %}">{{ announcement.title}}</a>
-                {% if user.profile == "admin" %}
-                    <a href="{% url 'announcement-delete' pk=announcement.id%}">Delete</a>
+                <a href="{% url 'announcement-detail' pk=announcement.id %}"class="btn btn-info">Info>{{ announcement.title}}</a>
+                {% if user.profile.role == "admin" %}
+                    <a href="{% url 'announcement-delete' pk=announcement.id%}"class = "btn btn-outline-danger">Delete</a>
                 {% endif %}
             </li>
         {% empty %}
             <li>No announcements found.</li>
         {% endfor %}
 
-
     </ul>
+    <p><a href="{%url 'announcement-create'%}"class="btn btn-outline-primary">Create announcement</a></p>
 {% endblock %}
