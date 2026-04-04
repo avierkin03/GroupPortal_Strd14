@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Вхід</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+            <label for="{{ form.username.id_for_label }}">Ім'я користувача</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+        <div>
+            <label for="{{ form.password.id_for_label }}">Пароль</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+        <button type="submit">Увійти</button>
+        <a href="{% url 'core:group_profile' %}" class="btn btn-secondary">Скасувати</a>
+    </form>
+    <p class="mt-3">Немає акаунта? <a href="{% url 'core:signup' %}">Зареєструватися</a></p>
+{% endblock %}
