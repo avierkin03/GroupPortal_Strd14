@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>FAQ_list</h1>
+    <a href="{% url 'faq:FAQ-create'%}">Create new FAQ</a>
+    <ul>
+        {% for FAQ in FAQS %}
+            {% if FAQ.status == 'done' %}
+                <li>
+                    <p><a href="{% url 'faq:FAQ-detail' FAQ.pk %}">{{FAQ.title}}</a></p>
+                    <p>category:{{FAQ.category}}</p>
+                    <p>Question:{{FAQ.text}}</p>
+                    <p>Answer:{{FAQ.answer}}</p>
+                </li>
+            {% else %}
+                <li>No FAQ Found</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
