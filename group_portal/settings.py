@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'materials',
     'polls',
     'portfolio',
-    'votes'
+    'faq',
+    'feedback'
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'static/media'
+
+LOGIN_REDIRECT_URL = 'core:user_profile'
+LOGOUT_REDIRECT_URL = 'core:group_profile'
