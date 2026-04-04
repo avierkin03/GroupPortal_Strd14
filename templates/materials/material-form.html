@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h2>{% if material.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+{% if material.subtitle %}
+    <p>{{ material.subtitle}}</p>
+{% else %}
+    <p>Опис відсутній.</p>
+{% endif %}
+
+
+
+    {% if existing_images %}
+        <h3>Вже завантажені фото:</h3>
+        <div>
+
+            {% for img_obj in existing_images %}
+                <div>
+                    <img src="{{ img_obj.image.url }}">
+                    <small>Завантажено</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <h3>Додати нові зображення:</h3>
+    {{ formset.management_form }}
+
+    {% for f in formset %}
+        <div class="image-field">
+            {{ f.id }}
+
+            <strong>Зображення {{ forloop.counter }}:</strong>
+            {{ f.image }}
+
+            {% if f.instance.pk %}
+                <span>Видалити: {{ f.DELETE }}</span>
+            {% endif %}
+        </div>
+
+    {% endfor %}
+
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+</form>
+<p><a href="{% url 'mater:material-list'%}">Назад</a></p>
+{% endblock %}

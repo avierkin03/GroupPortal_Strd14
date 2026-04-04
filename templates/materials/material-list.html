@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<title>materials-list</title>
+
+<h1>Цікаві Матеріал</h1>
+<form method="get">
+    {{ form.category.label_tag }}
+    {{ form.category }}
+    <button type="submit">Фільтрувати</button>
+</form>
+<p>список</p>
+
+<a href="{% url 'mater:material-create'%}">додати</a>
+
+<li>
+    {% for mat in materials %}
+        <a href="{% url 'mater:material-dateil' pk=mat.id  %}">{{ mat.title }}</a> 
+    {% empty %}
+        <li>Не знайдено такого матеріалу</li>
+    {% endfor %}
+</li> 
+
+
+{% endblock %}

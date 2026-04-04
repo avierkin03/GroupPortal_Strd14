@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<h1>Цікавий Матеріал</h1>
+<a href="{% url 'mater:material-list'%}">---</a>
+    <h1>{{ material.title }}</h1>
+    <p>{{ material.description }}</p>
+    <p>{{ material.category }}</p>
+    <p>{{ material.author }}</p>
+    <p>{{ material.material_date|date:"d F Y, H:i" }}</p>
+
+{% if material.subtitle %}
+    <p>{{ material.subtitle}}</p>
+{% else %}
+    <p><i>Опис відсутній.</i></p>
+{% endif %}
+        {% for image in material.images.all %}
+                <a href="{{ image.image.url }}" target="_blank">
+                    <img src="{{ image.image.url }}" alt="Зображення до матеріалу">
+                </a>
+        {% empty %}
+            <p>Зображень поки немає.</p>
+        {% endfor %}
+
+{% if material.file_type == 'video' %}
+    {% if material.material_file %}
+        <video width="100%" controls>
+            <source src="{{ material.material_file.url }}" type="video/mp4">
+        </video>
+    {% endif %}
+
+{% elif material.file_type == 'img' and material.material_img %}
+    <img src="{{ material.material_img.url }}" alt="Зображення" style="max-width: 100%;">
+
+{% elif material.file_type == 'file' and material.material_file %}
+    <div class="alert alert-info">
+        Додано файл: <a href="{{ material.material_file.url }}" download>Завантажити ({{ material.material_file.name }})</a>
+    </div>
+{% endif %}
+
+    {% if material.material_url %}
+            <strong>Посилання:</strong> 
+            <a href="{{ material.material_url }}" target="_blank" rel="noopener noreferrer">
+                {{ material.material_url }}
+            </a>
+    {% endif %}
+    <p>
+        <form action="{% url 'mater:material-like' material.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">
+                Лайк {{ material.likes.count}}
+            </button>
+        </form>
+        <a href="{% url 'mater:material-update' material.pk %}">Редагувати</a>
+        <a href="{% url 'mater:material-delete' material.pk %}">Видалити</a>
+    </p>
+
+{% endblock %}

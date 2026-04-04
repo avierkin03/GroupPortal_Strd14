@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<h1>Видалення</h1>
+    <p>ви впевнені що хочите видалити задачу? "{{ object.title }}"</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Так</button>
+    </form>
+    
+    <a href="{% url 'mater:material-list' %}">Ні</a>
+{% endblock %}
