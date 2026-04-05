@@ -68,6 +68,7 @@ class Materials_CreateView(LoginRequiredMixin, CreateView):
         else:
             return self.form_invalid(form)
 
+        
 
 #Редагувати матеріал
 class Materials_UpdateView(LoginRequiredMixin, UpdateView):
@@ -76,10 +77,30 @@ class Materials_UpdateView(LoginRequiredMixin, UpdateView):
     template_name = "materials/material-form.html"
     success_url = reverse_lazy("mater:material-list")
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['formset'] = ImageFormSet(instance=self.object)
+        return context
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        # Друкуємо для відладки в консоль (залиш для перевірки)
+        print("FORMSET VALID:", formset.is_valid())
+        if not formset.is_valid():
+            print("FORMSET ERRORS:", formset.errors)
+
+        if form.is_valid() and formset.is_valid():
+            self.object = form.save() # Просто зберігаємо основну форму
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        
+        return self.render_to_response(self.get_context_data(form=form))
 
 #Видалети матеріал
 class Materials_DeleteView(LoginRequiredMixin, DeleteView):
@@ -118,3 +139,4 @@ def Like_Material(request, pk):
 #from django.shortcuts import render
 
 # Create your views here.
+

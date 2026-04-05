@@ -17,17 +17,21 @@
 
     <h4>Картинки</h4>
 
-    <div id="formset">
-        {{ formset.management_form }}
+<div id="formset">
+    {{ formset.management_form }}   <!-- 🔥 ОСЬ ЦЕ -->
 
-        {% for f in formset %}
-            <div class="image-form">
-                {{ f.image }}
-                {{ f.DELETE }} Видалити
-            </div>
-        {% endfor %}
+{% for f in formset %}
+    <div class="image-form">
+        {{ f.id }}  {% if f.instance.pk %}
+            <p>Поточна картинка:</p>
+            <img src="{{ f.instance.image.url }}" width="120">
+        {% endif %}
+
+        {{ f.image }}
+        <label>{{ f.DELETE }} Видалити</label>
     </div>
-
+{% endfor %}
+</div>
     <button type="button" id="add-more"> Додати ще</button>
 
     <br><br>
@@ -40,39 +44,29 @@
 document.addEventListener("DOMContentLoaded", function() {
     const formsetDiv = document.getElementById('formset');
     const addButton = document.getElementById('add-more');
-    const totalForms = document.querySelector('input[id$="TOTAL_FORMS"]');
+    const totalForms = document.querySelector('[name$="TOTAL_FORMS"]');
     const emptyFormHtml = `{{ formset.empty_form.as_p|escapejs }}`;
     const MAX_FORMS = 3;
 
-    // Функція для перевірки ліміту
     function checkLimit() {
-        const formCount = document.querySelectorAll('.image-form').length;
-        if (formCount >= MAX_FORMS) {
-            addButton.style.display = 'none'; // Ховаємо кнопку
-        } else {
-            addButton.style.display = 'inline-block'; // Показуємо кнопку
-        }
+        const formCount = parseInt(totalForms.value);
+        addButton.style.display = formCount >= MAX_FORMS ? 'none' : 'inline-block';
     }
 
-    // Перевіряємо ліміт відразу при завантаженні (на випадок редагування)
     checkLimit();
 
     addButton.onclick = function() {
         const formCount = parseInt(totalForms.value);
-        const currentVisibleForms = document.querySelectorAll('.image-form').length;
 
-        if (currentVisibleForms < MAX_FORMS) {
+        if (formCount < MAX_FORMS) {
             const newFormHtml = emptyFormHtml.replace(/__prefix__/g, formCount);
             const wrapper = document.createElement('div');
             wrapper.classList.add('image-form');
             wrapper.innerHTML = newFormHtml;
-            
+
             formsetDiv.appendChild(wrapper);
-            
-            // Оновлюємо лічильник для Django
             totalForms.value = formCount + 1;
-            
-            // Перевіряємо, чи не досягли ліміту після додавання
+
             checkLimit();
         }
     };
