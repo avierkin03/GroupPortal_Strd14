@@ -35,6 +35,7 @@ ImageFormSet = inlineformset_factory(
 
 class Material_FilterForm(forms.Form):
     CATEGORY_CHOICES = [
+        ('','Всі'),
         ('basics', 'Основи програмування'),
         ('web', 'WEB-розробка'),
         ('git', 'Git та GitHub'),

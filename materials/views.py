@@ -46,6 +46,12 @@ class Materials_CreateView(LoginRequiredMixin, CreateView):
     form_class = Materials_CreateForm
     success_url = reverse_lazy("mater:material-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            # Якщо не адмін — повертаємо на список матеріалів або видаємо помилку
+            return redirect('mater:material-list') 
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         instance = self.object or Material()
@@ -77,6 +83,12 @@ class Materials_UpdateView(LoginRequiredMixin, UpdateView):
     template_name = "materials/material-form.html"
     success_url = reverse_lazy("mater:material-list")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            # Якщо не адмін — повертаємо на список матеріалів або видаємо помилку
+            return redirect('mater:material-list') 
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
@@ -102,11 +114,16 @@ class Materials_UpdateView(LoginRequiredMixin, UpdateView):
         
         return self.render_to_response(self.get_context_data(form=form))
 
+
 #Видалети матеріал
 class Materials_DeleteView(LoginRequiredMixin, DeleteView):
     model = Material
     template_name = "materials/material-delete.html"
     success_url = reverse_lazy("mater:material-list")
+
+    def form_valid(self, form):
+        form.instance.author = self.author.user
+        return super().form_valid(form)
 
 class Materials_CompleteView(LoginRequiredMixin, UserMaterial, View):
     def post(self, request, *args, **kwargs):

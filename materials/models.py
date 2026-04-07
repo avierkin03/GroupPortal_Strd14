@@ -12,7 +12,6 @@ class Material(models.Model):
     TYPE_CHOICES = [
         ("video", "Відео"),
         ("file", "Файл"),
-        ("img", "Картинка"),
     ]
 
     title = models.CharField(max_length=256)#Заголовок

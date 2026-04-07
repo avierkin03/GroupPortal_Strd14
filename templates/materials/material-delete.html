@@ -2,12 +2,17 @@
 
 {% load static %}
 {% block content %}
-<h1>Видалення</h1>
-    <p>ви впевнені що хочите видалити задачу? "{{ object.title }}"</p>
+<br><br>
+<h1>Видалення матеріалу</h1>
+    <p>ви впевнені що хочите видалити матеріал? "{{ object.title }}"</p>
+
+<div class="d-grid gap-2 d-md-block">
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Так</button>
+        <button type="submit" class="btn btn-danger">Так</button>
+        
+        <a href="{% url 'mater:material-list' %}" class="btn btn-secondary">Ні</a>
     </form>
     
-    <a href="{% url 'mater:material-list' %}">Ні</a>
+</div>
 {% endblock %}

@@ -3,15 +3,23 @@
 {% block content %}
 <title>materials-list</title>
 
-<h1>Цікаві Матеріал</h1>
-<form method="get">
-    {{ form.category.label_tag }}
-    {{ form.category }}
-    <button type="submit">Фільтрувати</button>
-</form>
-<p>список</p>
+<br><br>
+<h1 class="text-center">Цікаві Матеріали</h1>
 
-<a href="{% url 'mater:material-create'%}">додати</a>
+<p class="text-center">На цій сторінці ви зможете знайти корисний матеріал для себе</p>
+<br>
+<div class="d-grid gap-2 d-md-block">
+    <form method="get">
+        {{ form.category.label_tag }}
+        {{ form.category }}
+        <button type="submit" class="btn btn-primary">Фільтрувати</button>
+    </form>
+</div>
+<br>
+
+{% if user.is_superuser %}
+    <a href="{% url 'mater:material-create'%}" class="btn btn-primary">+ додати матеріал</a>
+{% endif %}
 
 <li>
     {% for mat in materials %}

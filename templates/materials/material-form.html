@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+<br><br>
 <h2>{% if form.instance.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
 
 <form method="POST" enctype="multipart/form-data">
@@ -18,27 +18,24 @@
     <h4>Картинки</h4>
 
 <div id="formset">
-    {{ formset.management_form }}   <!-- 🔥 ОСЬ ЦЕ -->
+    {{ formset.management_form }} 
 
 {% for f in formset %}
     <div class="image-form">
-        {{ f.id }}  {% if f.instance.pk %}
-            <p>Поточна картинка:</p>
-            <img src="{{ f.instance.image.url }}" width="120">
-        {% endif %}
+
 
         {{ f.image }}
         <label>{{ f.DELETE }} Видалити</label>
     </div>
 {% endfor %}
 </div>
-    <button type="button" id="add-more"> Додати ще</button>
+    <button type="button" id="add-more"class="btn btn-primary"> Додати ще</button>
 
     <br><br>
-    <button type="submit">Зберегти</button>
+    <button type="submit" class="btn btn-success">Зберегти</button>
 </form>
 
-<p><a href="{% url 'mater:material-list' %}">Назад</a></p>
+<p><a href="{% url 'mater:material-list'%}" class="btn btn-light">Назад до матеріалу</a></p>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
