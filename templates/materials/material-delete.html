@@ -3,16 +3,17 @@
 {% load static %}
 {% block content %}
 <br><br>
-<h1>Видалення матеріалу</h1>
-    <p>ви впевнені що хочите видалити матеріал? "{{ object.title }}"</p>
+<h1  class="text-center">Видалення матеріалу</h1>
+    <p  class="text-center">ви впевнені що хочите видалити матеріал? "{{ object.title }}"</p>
+<br>
+<div class="position-absolute top-40 start-50 translate-middle mt-1">
+    <div class="d-grid gap-2 d-md-block">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" style="padding: 5px 50px;">Так</button>
 
-<div class="d-grid gap-2 d-md-block">
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Так</button>
-        
-        <a href="{% url 'mater:material-list' %}" class="btn btn-secondary">Ні</a>
-    </form>
-    
+            <a href="{% url 'mater:material-list' %}" class="btn btn-secondary" style="padding: 5px 50px;">Ні</a>
+        </form>
+    </div>
 </div>
 {% endblock %}

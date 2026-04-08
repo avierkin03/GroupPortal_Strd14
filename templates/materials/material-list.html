@@ -8,26 +8,43 @@
 
 <p class="text-center">На цій сторінці ви зможете знайти корисний матеріал для себе</p>
 <br>
-<div class="d-grid gap-2 d-md-block">
-    <form method="get">
-        {{ form.category.label_tag }}
-        {{ form.category }}
-        <button type="submit" class="btn btn-primary">Фільтрувати</button>
-    </form>
+<div>
+    <div>
+        <form method="get">
+            <strong>{{ form.category.label_tag }}</strong>
+            {{ form.category }}
+            <button type="submit" class="btn btn-primary ml-2">Фільтрувати</button>
+        </form>
+    </div>
 </div>
-<br>
 
+
+
+
+<br><br>
+<div class="center-btn-f">
 {% if user.is_superuser %}
     <a href="{% url 'mater:material-create'%}" class="btn btn-primary">+ додати матеріал</a>
 {% endif %}
+</div>
+<br>
+<div class="center-btn-f">
+<ul class="list-group">
+        {% for mat in materials %}
+    <li>
+        <div class="col-12">
+            {{ mat.title }} |
+            {{ mat.category }} |
+            {{ mat.material_date|date:"d F Y, H:i" }} |
+            <a href="{% url 'mater:material-dateil' pk=mat.id  %}" class="btn btn-warning">Переглянути</a> 
+        </div>
+    </li> 
+        {% empty %}
+            <li>Не знайдено такого матеріалу</li>
+        {% endfor %}
+</ul>
+</div>
 
-<li>
-    {% for mat in materials %}
-        <a href="{% url 'mater:material-dateil' pk=mat.id  %}">{{ mat.title }}</a> 
-    {% empty %}
-        <li>Не знайдено такого матеріалу</li>
-    {% endfor %}
-</li> 
 
 
 {% endblock %}

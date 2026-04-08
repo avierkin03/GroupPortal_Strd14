@@ -2,18 +2,15 @@
 {% load static %}
 {% block content %}
 <br><br>
-<h2>{% if form.instance.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
-
+<h2 class="text-center">{% if form.instance.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
+<br>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-
-    {{ form.as_p }}
-
-    {% if form.subtitle.value %}
-        <p>{{ form.subtitle.value }}</p>
-    {% else %}
-        <p>Опис відсутній.</p>
-    {% endif %}
+    <h1>{{ form.title }}</h1>
+    <p>{{ form.description }}</p>
+    <p>{{ form.category }}</p>
+    <label>Тип файлу:</label>
+    {{ form.file_type }}
 
     <h4>Картинки</h4>
 

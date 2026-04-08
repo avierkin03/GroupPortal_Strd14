@@ -6,22 +6,18 @@
 <h1 class="text-center">Цікавий Матеріал</h1>
 
     <h1>{{ material.title }}</h1>
-    <p>{{ material.description }}</p>
     <p>Категорія: {{ material.category }}</p>
     <p>Автор: {{ material.author }}</p>
     <p>{{ material.material_date|date:"d F Y, H:i" }}</p>
-
-{% if material.subtitle %}
-    <p>{{ material.subtitle}}</p>
-{% else %}
-    <p><i>Опис відсутній.</i></p>
-{% endif %}
 
 
     {% for image in material.images.all %}
         <img src="{{ image.image.url }}" alt="Зображення до матеріалу" style="max-width: 900px; max-height: 500px;">
     {% endfor %}
+    <p>{{ material.description }}</p>
 
+
+    
     {% if material.file_type == 'video' %}
         {% if material.material_file %}
             <video width="340px" height="280" controls>
@@ -31,11 +27,17 @@
 
 
     {% else %}
-        <div class="alert alert-info">
-            Додано файл: <a href="{{ material.material_file.url }}" download class="btn btn-primary">Завантажити ({{ material.material_file.name }})</a>
+        <div>
+            <label>Додано файл: </label>
+            <a href="{{ material.material_file.url }}" download class="btn btn-primary">Завантажити ({{ material.material_file.name }})</a>
         </div>
     {% endif %}
 
+{% if material.subtitle %}
+    <p>{{ material.subtitle}}</p>
+{% else %}
+    <p><i>Опис відсутній.</i></p>
+{% endif %}
 
     {% if material.material_url %}
             <strong>Посилання:</strong> 
@@ -44,12 +46,14 @@
             </a>
     {% endif %}
     <p>
-        <form action="{% url 'mater:material-like' material.pk %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-success">
-                Лайк {{ material.likes.count}}
-            </button>
-        </form>
+<div class="d-grid gap-2 d-md-flex">
+<form action="{% url 'mater:material-like' material.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" 
+        class="button-like-mater {% if already_liked %}active{% endif %}">
+        {% if already_liked %} Лайкнуто {% else %} Лайк {% endif %}{{ material.likes.count}}
+    </button>
+</form>
     </p>
     {% if user.is_superuser %}
         <a href="{% url 'mater:material-update' material.pk %}" class="btn btn-warning">Редагувати</a>
@@ -57,5 +61,7 @@
     {% endif %}
 
     <a href="{% url 'mater:material-list'%}" class="btn btn-light">Назад до матеріалу</a>
+</div>
 <br><br>
+
 {% endblock %}

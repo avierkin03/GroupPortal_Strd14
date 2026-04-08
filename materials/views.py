@@ -36,8 +36,19 @@ class Materials_DatailView(DetailView):
     #def get_context_data(self, **kwargs):
     #    context = super().get_context_data(**kwargs)
     #    context["material_filefrom"] = Material_FileForm()
-    #    return context
-
+    #    return contex
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            # Перевіряємо, чи поставив поточний юзер лайк
+            if self.request.user.is_authenticated:
+                # Шукаємо лайк у моделі Like (як у твоєму Like_Material)
+                context["already_liked"] = Like.objects.filter(
+                    user=self.request.user, 
+                    material=self.object
+                ).exists()
+            else:
+                context["already_liked"] = False
+            return context
 
 #Створити новий матеріал
 class Materials_CreateView(LoginRequiredMixin, CreateView):
