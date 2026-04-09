@@ -5,63 +5,116 @@
 <br><br>
 <h1 class="text-center">Цікавий Матеріал</h1>
 
-    <h1>{{ material.title }}</h1>
-    <p>Категорія: {{ material.category }}</p>
-    <p>Автор: {{ material.author }}</p>
-    <p>{{ material.material_date|date:"d F Y, H:i" }}</p>
 
 
-    {% for image in material.images.all %}
-        <img src="{{ image.image.url }}" alt="Зображення до матеріалу" style="max-width: 900px; max-height: 500px;">
-    {% endfor %}
+
+<br>
+    <a href="{% url 'mater:material-list'%}" class="btn btn-light">Назад до матеріалу</a>
+<br><br>
+
+
+
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8"> 
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <div class="card-body p-4 p-md-5">
+                    <h1>{{ material.title }}</h1>
+                    <strong>Категорія: </strong><span class="badge text-bg-info">{{ material.category }}</span>
+                    <strong>Автор:</strong> {{ material.author }}
+                    <p>{{ material.material_date|date:"d F Y, H:i" }}</p>
+
+    {% with all_images=material.images.all %}
+        {% if all_images.count == 1 %}
+            <div class="single-image mb-3">
+                <img src="{{ all_images.first.image.url }}" alt="Зображення" class="img-fluid" style="max-height: 500px; border-radius: 8px;">
+            </div>
+
+        {% elif all_images.count > 1 %}
+            <div id="carouselExample" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+                <div class="carousel-inner bg-light">
+                    {% for img in all_images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ img.image.url }}" class="d-block w-100" style="height: 500px; object-fit: contain;">
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev" stayle="color: black;">
+                  <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.5);"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.5);"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        {% else %}
+            <p class="text-muted italic">Зображення до цього матеріалу не додані.</p>
+        {% endif %}
+    {% endwith %}
+
+    <br>
     <p>{{ material.description }}</p>
 
-
-    
-    {% if material.file_type == 'video' %}
-        {% if material.material_file %}
-            <video width="340px" height="280" controls>
-                <source src="{{ material.material_file.url }}" type="video/mp4">
-            </video>
+        
+        {% if material.file_type == 'video' %}
+            {% if material.material_file %}
+                <video width="340px" height="280" controls>
+                    <source src="{{ material.material_file.url }}" type="video/mp4">
+                </video>
+            {% endif %}
+        {% else %}
+            <div>
+                <label>Додано файл: </label>
+                <a href="{{ material.material_file.url }}" download class="btn btn-primary">Завантажити ({{ material.material_file.name }})</a>
+            </div>
         {% endif %}
 
-
+    {% if material.subtitle %}
+        <p>{{ material.subtitle}}</p>
     {% else %}
-        <div>
-            <label>Додано файл: </label>
-            <a href="{{ material.material_file.url }}" download class="btn btn-primary">Завантажити ({{ material.material_file.name }})</a>
-        </div>
+        <p><i>Опис відсутній.</i></p>
     {% endif %}
 
-{% if material.subtitle %}
-    <p>{{ material.subtitle}}</p>
-{% else %}
-    <p><i>Опис відсутній.</i></p>
-{% endif %}
-
-    {% if material.material_url %}
-            <strong>Посилання:</strong> 
-            <a href="{{ material.material_url }}" target="_blank" rel="noopener noreferrer">
-                {{ material.material_url }}
-            </a>
-    {% endif %}
-    <p>
-<div class="d-grid gap-2 d-md-flex">
-<form action="{% url 'mater:material-like' material.pk %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" 
-        class="button-like-mater {% if already_liked %}active{% endif %}">
-        {% if already_liked %} Лайкнуто {% else %} Лайк {% endif %}{{ material.likes.count}}
-    </button>
-</form>
+        {% if material.material_url %}
+                <strong>Посилання:</strong> 
+                <a href="{{ material.material_url }}" target="_blank" rel="noopener noreferrer">
+                    {{ material.material_url }}
+                </a>
+        {% endif %}
+        <p>
+    <div class="d-grid gap-2 d-md-flex">
+    <form action="{% url 'mater:material-like' material.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" 
+            class="button-like-mater {% if already_liked %}active{% endif %}">
+            {% if already_liked %} Лайкнуто {% else %} Лайк {% endif %}{{ material.likes.count}}
+        </button>
+    </form>
     </p>
-    {% if user.is_superuser %}
-        <a href="{% url 'mater:material-update' material.pk %}" class="btn btn-warning">Редагувати</a>
-        <a href="{% url 'mater:material-delete' material.pk %}" class="btn btn-danger">Видалити</a>
-    {% endif %}
+                        <div>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'mater:material-update' material.pk %}" class="btn btn-warning">Редагувати</a>
+                                <a href="{% url 'mater:material-delete' material.pk %}" class="btn btn-danger">Видалити</a>
+                            {% endif %}
+                        </div>
 
-    <a href="{% url 'mater:material-list'%}" class="btn btn-light">Назад до матеріалу</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<br><br>
+
+
+
+
+
+
+
+
+
 
 {% endblock %}

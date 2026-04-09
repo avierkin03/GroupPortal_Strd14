@@ -34,7 +34,7 @@
     <li>
         <div class="col-12">
             {{ mat.title }} |
-            {{ mat.category }} |
+            <span class="badge text-bg-info">{{ mat.category }}</span> |
             {{ mat.material_date|date:"d F Y, H:i" }} |
             <a href="{% url 'mater:material-dateil' pk=mat.id  %}" class="btn btn-warning">Переглянути</a> 
         </div>

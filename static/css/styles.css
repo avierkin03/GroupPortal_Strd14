@@ -39,3 +39,16 @@
 .center-btn-f {
     padding-left: 10%;
 }
+
+.carousel-item {
+    /* Робимо фон для порожніх місць (чорний або світло-сірий) */
+    background-color: #222; 
+    height: 500px; /* Фіксуємо висоту каруселі */
+}
+
+.carousel-item img {
+    height: 500px;
+    width: 100%;
+    /* МАГІЯ ТУТ: вписує фото повністю без обрізки */
+    object-fit: contain; 
+}
