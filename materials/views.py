@@ -33,10 +33,6 @@ class Materials_DatailView(DetailView):
     context_object_name = "material"
     template_name = "materials/material.html"
 
-    #def get_context_data(self, **kwargs):
-    #    context = super().get_context_data(**kwargs)
-    #    context["material_filefrom"] = Material_FileForm()
-    #    return contex
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             # Перевіряємо, чи поставив поточний юзер лайк
@@ -132,9 +128,10 @@ class Materials_DeleteView(LoginRequiredMixin, DeleteView):
     template_name = "materials/material-delete.html"
     success_url = reverse_lazy("mater:material-list")
 
-    def form_valid(self, form):
-        form.instance.author = self.author.user
-        return super().form_valid(form)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('mater:material-list')
+        return super().dispatch(request, *args, **kwargs)
 
 class Materials_CompleteView(LoginRequiredMixin, UserMaterial, View):
     def post(self, request, *args, **kwargs):

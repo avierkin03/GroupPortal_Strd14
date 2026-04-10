@@ -1,33 +1,36 @@
 /* Звичайна кнопка */
 .button-like-mater {
-    background-color: #3498db !important; /* Синій */
-    color: white !important;
+    background-color: white !important; 
+    color: blue !important;
 
-    border: none;
+    /* Видаляємо border: none і transparent */
+    /* Встановлюємо рамку: товщина, стиль (solid), колір */
+    border: 2px solid blue !important; 
+    
     cursor: pointer;
     transition: 0.3s;
     padding: 6px 12px; 
-    
-    /* Розмір тексту та міжрядковий інтервал */
     font-size: 16px;
     line-height: 1.5;
-    
-    /* Заокруглення кутів */
     border-radius: 5px;
-    
-    /* Товщина рамки */
-    border: 1px solid transparent;
 }
 
 /* Кнопка, коли лайк ВЖЕ стоїть */
 .button-like-mater.active {
-    background-color: yellow !important;
-    color: black !important;
+    background-color: blue !important;
+    color: white !important;
+    border: 2px solid blue !important; 
 }
 
 /* Ефект при наведенні (щоб було красиво) */
 .button-like-mater:hover {
     opacity: 0.8;
+    background-color: rgb(3, 3, 204) !important; 
+    color: white !important;
+
+    /* Видаляємо border: none і transparent */
+    /* Встановлюємо рамку: товщина, стиль (solid), колір */
+
 }
 
 .center {
