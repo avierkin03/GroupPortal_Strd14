@@ -1,0 +1,50 @@
+/* ------Material------ */
+/*  кнопка лайку */
+.button-like-mater {
+    background-color: white !important; 
+    color: green !important;
+    border: 2px solid green !important; 
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 6px 12px; 
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 5px;
+}
+
+/* Кнопка, коли лайк ВЖЕ стоїть */
+.button-like-mater.active {
+    background-color: green !important;
+    color: white !important;
+    border: 2px solid green !important; 
+}
+
+/* Ефект при наведенні (щоб було красиво) */
+.button-like-mater:hover {
+    opacity: 0.8;
+    background-color: rgb(2, 107, 2) !important; 
+    color: white !important;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-btn-f {
+    padding-left: 18%;
+}
+
+.carousel-item {
+    background-color: #222; 
+    height: 500px; /* Фіксуємо висоту каруселі */
+}
+
+.carousel-item img {
+    height: 500px;
+    width: 100%;
+    object-fit: contain; 
+}
+
+/* ------Material------ */
