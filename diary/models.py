@@ -1,11 +1,12 @@
 from django.db import models
+from core.models import UserProfile
 
 # Create your models here.
 class Student(models.Model):
-    name = models.CharField(max_length=100)
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="student")
 
     def __str__(self):
-        return self.name
+        return self.user_profile.user.username
 
     def total_logics(self):
         return sum(grade.logic_points for grade in self.grades.all())
