@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import FAQ_model
 from django.urls import reverse_lazy
-from .forms import FAQ_Form
+from .forms import FAQ_Form_CRT,FAQ_Form_UPD
 
 # Create your views here.
 class FAQ_ListView(ListView):
@@ -17,10 +18,10 @@ class FAQ_DetailView(DetailView):
     template_name = "faq/all/FAQ_detail.html"
 
 
-class FAQ_CreateView(CreateView):
+class FAQ_CreateView(LoginRequiredMixin,CreateView):
     model = FAQ_model
-    template_name = 'faq/all/FAQ.form.html'
-    form_class = FAQ_Form
+    template_name = 'faq/all/FAQ.form.create.html'
+    form_class = FAQ_Form_CRT
     success_url = reverse_lazy('faq:FAQ-list')
     def form_valid(self,form):
         form.instance.Questioner = self.request.user
@@ -29,8 +30,8 @@ class FAQ_CreateView(CreateView):
 
 class FAQ_UpdateView(UpdateView):
     model = FAQ_model
-    template_name = 'faq/all/FAQ.form.html'
-    form_class = FAQ_Form
+    template_name = 'faq/all/FAQ.form.update.html'
+    form_class = FAQ_Form_UPD
     success_url = reverse_lazy('faq:FAQ-list')
 
 

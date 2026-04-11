@@ -21,8 +21,8 @@ class FAQ_model(models.Model):
     ]
 
     title = models.CharField(max_length=100)
-    text = models.CharField(max_length=500)
-    answer = models.CharField(max_length=250)
+    text = models.TextField(max_length=500)
+    answer = models.TextField(max_length=250)
     status = models.CharField(max_length=20,choices=STATUS_CHOICES)
     category = models.CharField(max_length=20,choices=CATEGORY_CHOISES,null=True)
     Questioner = models.ForeignKey(User, on_delete=models.CASCADE,related_name='tasks')
