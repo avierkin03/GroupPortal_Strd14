@@ -1,0 +1,22 @@
+<h1>Проекти користувача {{ profile_user.username }}</h1>
+
+{% if request.user == profile_user %}
+
+<a href="{% url 'create_project' %}">
+    Створити новий проект
+</a>
+
+{% endif %}
+
+{% for project in projects %}
+
+<h2>{{ project.title }}</h2>
+<p>{{ project.description }}</p>
+
+{% if request.user == profile_user %}
+<a href="{% url 'delete_project' project.id %}">
+    Видалити
+</a>
+{% endif %}
+
+{% endfor %}
