@@ -15,5 +15,7 @@
         {% endfor %}
 
     </ul>
-    <p><a href="{%url 'announcement-create'%}"class="btn btn-outline-primary">Create announcement</a></p>
+    {% if user.profile.role == "admin" %}
+        <p><a href="{%url 'announcement-create'%}"class="btn btn-outline-primary">Create announcement</a></p>
+    {% endif %}
 {% endblock %}
