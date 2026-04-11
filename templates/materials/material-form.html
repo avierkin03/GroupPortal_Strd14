@@ -2,9 +2,9 @@
 {% load static %}
 {% block content %}
 <br><br>
-<h2 class="text-center mb-3">{% if form.instance.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
+<h2 class="text-center mb-3 fw-bold">{% if form.instance.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
 <div class="center">
-    <p><a href="{% url 'mater:material-list'%}" class="btn btn-outline-secondary">Назад до матеріалу</a></p>
+    <p><a href="{% url 'mater:material-list'%}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Назад до матеріалу</a></p>
 </div>
 
 <div class="container py-3">
@@ -74,24 +74,16 @@
                             {% endfor %}
                             </div>
                         </div>
-                </form>
-
-    <button type="button" id="add-more"class="btn btn-primary"> Додати ще</button>
-
-    <br><br>
-    <div class="d-grid gap-2">
-<button type="submit" class="btn btn-success">Зберегти</button>
-    </div>
-    
-
+                        <button type="button" id="add-more"class="btn btn-primary mb-4"> Додати ще</button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Зберегти</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
