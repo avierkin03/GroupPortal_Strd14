@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Видалити голосування</h1>
+    
+    <div class="alert alert-danger">
+        <p>Ви впевнені, що хочете видалити голосування <strong>"{{ poll.title }}"</strong>?</p>
+        <p>Ця дія незворотна, всі голоси будуть втрачені.</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Так, видалити</button>
+        <a href="{% url 'votes:vote_list' %}" class="btn btn-secondary">Скасувати</a>
+    </form>
+</div>
+{% endblock %}

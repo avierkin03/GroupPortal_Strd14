@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Голосування</h1>
+    
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Пошук голосувань..." value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">Пошук</button>
+        </div>
+    </form>
+    
+    <h2 class="mt-4">Активні голосування</h2>
+    {% if active_polls %}
+        {% for poll in active_polls %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ poll.title }}</h5>
+                    <p class="card-text">{{ poll.description|truncatewords:30 }}</p>
+                    {% if poll.end_date %}
+                        <p class="card-text"><small class="text-muted">До: {{ poll.end_date|date:"d.m.Y H:i" }}</small></p>
+                    {% endif %}
+                    <a href="{% url 'votes:vote_detail' poll.id %}" class="btn btn-primary">Голосувати</a>
+                    <a href="{% url 'votes:vote_results' poll.id %}" class="btn btn-info">Результати</a>
+                    {% if user.is_staff %}
+                        <a href="{% url 'votes:vote_edit' poll.id %}" class="btn btn-warning btn-sm">Редагувати</a>
+                        <a href="{% url 'votes:vote_delete' poll.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені?')">Видалити</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        
+        {% if active_polls.has_other_pages %}
+            <nav>
+                <ul class="pagination">
+                    {% if active_polls.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page_active={{ active_polls.previous_page_number }}&q={{ search_query }}">Попередня</a></li>
+                    {% endif %}
+                    <li class="page-item active"><span class="page-link">Сторінка {{ active_polls.number }} з {{ active_polls.paginator.num_pages }}</span></li>
+                    {% if active_polls.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page_active={{ active_polls.next_page_number }}&q={{ search_query }}">Наступна</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <p>Немає активних голосувань</p>
+    {% endif %}
+    
+    <h2 class="mt-4">Завершені голосування</h2>
+    {% if ended_polls %}
+        {% for poll in ended_polls %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ poll.title }}</h5>
+                    <p class="card-text">{{ poll.description|truncatewords:30 }}</p>
+                    <a href="{% url 'votes:vote_results' poll.id %}" class="btn btn-info">Результати</a>
+                    {% if user.is_staff %}
+                        <a href="{% url 'votes:vote_edit' poll.id %}" class="btn btn-warning btn-sm">Редагувати</a>
+                        <a href="{% url 'votes:vote_delete' poll.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені?')">Видалити</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Немає завершених голосувань</p>
+    {% endif %}
+    
+    {% if user.is_staff %}
+        <div class="mt-4">
+            <a href="{% url 'votes:vote_create' %}" class="btn btn-success">Створити голосування</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

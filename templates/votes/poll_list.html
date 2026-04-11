@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Голосування</h1>
+
+<h2>Активні голосування</h2>
+{% for poll in active_polls %}
+    <div>
+        <h3><a href="{% url 'votes:poll_detail' poll.id %}">{{ poll.title }}</a></h3>
+        <p>{{ poll.description|truncatewords:30 }}</p>
+        <p>До: {{ poll.end_date|date:"d.m.Y H:i" }}</p>
+    </div>
+{% empty %}
+    <p>Немає активних голосувань</p>
+{% endfor %}
+
+<h2>Завершені голосування</h2>
+{% for poll in ended_polls %}
+    <div>
+        <h3><a href="{% url 'votes:poll_results' poll.id %}">{{ poll.title }}</a></h3>
+        <p>{{ poll.description|truncatewords:30 }}</p>
+    </div>
+{% empty %}
+    <p>Немає завершених голосувань</p>
+{% endfor %}
+
+{% if user.is_staff %}
+    <a href="{% url 'votes:poll_create' %}">Створити голосування</a>
+{% endif %}
+{% endblock %}

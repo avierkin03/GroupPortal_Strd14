@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ poll.title }}</h1>
+    <p>{{ poll.description }}</p>
+    
+    {% if user.is_staff %}
+        <div class="mb-3">
+            <a href="{% url 'votes:vote_edit' poll.id %}" class="btn btn-warning btn-sm">Редагувати</a>
+            <a href="{% url 'votes:vote_delete' poll.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені?')">Видалити</a>
+        </div>
+    {% endif %}
+    
+    {% if can_vote %}
+        <form method="post">
+            {% csrf_token %}
+            {% for choice in poll.choices.all %}
+                <div class="form-check mb-2">
+                    <input type="radio" name="choice" value="{{ choice.id }}" id="choice{{ choice.id }}" class="form-check-input" {% if user_vote and user_vote.choice.id == choice.id %}checked{% endif %}>
+                    <label for="choice{{ choice.id }}" class="form-check-label">{{ choice.text }}</label>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary mt-3">{% if user_vote %}Переголосувати{% else %}Голосувати{% endif %}</button>
+        </form>
+    {% else %}
+        <div class="alert alert-info">
+            <p>Ви вже голосували або голосування завершене.</p>
+            <a href="{% url 'votes:vote_results' poll.id %}" class="btn btn-info">Подивитись результати</a>
+        </div>
+    {% endif %}
+    
+    <a href="{% url 'votes:vote_list' %}" class="btn btn-secondary mt-3">Назад до списку</a>
+</div>
+{% endblock %}

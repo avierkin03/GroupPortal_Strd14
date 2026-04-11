@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ poll.title }} - Результати</h1>
+    <p>{{ poll.description }}</p>
+    
+    <div class="mt-4">
+        <h3>Результати голосування:</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Варіант</th>
+                    <th>Голосів</th>
+                    <th>Відсотки</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in choices_data %}
+                    <tr>
+                        <td>{{ data.choice.text }}</td>
+                        <td>{{ data.votes }}</td>
+                        <td>{{ data.percentage }}%</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Ще немає голосів</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <p class="mt-3"><strong>Всього голосів:</strong> {{ total_votes }}</p>
+        
+        <a href="{% url 'votes:vote_list' %}" class="btn btn-secondary">Назад до списку</a>
+    </div>
+</div>
+{% endblock %}

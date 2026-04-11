@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{% if poll %}Редагувати голосування{% else %}Створити голосування{% endif %}</h1>
+    
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="title" class="form-label">Назва голосування:</label>
+            <input type="text" name="title" id="title" class="form-control" value="{{ poll.title|default:'' }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Опис:</label>
+            <textarea name="description" id="description" class="form-control" rows="4">{{ poll.description|default:'' }}</textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="end_date" class="form-label">Дата завершення (необов'язково):</label>
+            <input type="datetime-local" name="end_date" id="end_date" class="form-control" value="{% if poll.end_date %}{{ poll.end_date|date:'Y-m-d\TH:i' }}{% endif %}">
+            <small class="form-text text-muted">Залиште пустим, якщо голосування безстрокове</small>
+        </div>
+        
+        {% if poll %}
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="is_active" id="is_active" class="form-check-input" {% if poll.is_active %}checked{% endif %}>
+                <label for="is_active" class="form-check-label">Активне голосування</label>
+            </div>
+        {% endif %}
+        
+        <div class="mb-3">
+            <label class="form-label">Варіанти відповідей:</label>
+            <div id="choices-container">
+                {% if poll %}
+                    {% for choice in poll.choices.all %}
+                        <div class="input-group mb-2">
+                            <input type="text" name="choices" class="form-control" value="{{ choice.text }}" required>
+                            <button type="button" class="btn btn-danger" onclick="removeChoice(this)">Видалити</button>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="input-group mb-2">
+                        <input type="text" name="choices" class="form-control" placeholder="Варіант відповіді 1" required>
+                        <button type="button" class="btn btn-danger" onclick="removeChoice(this)">Видалити</button>
+                    </div>
+                    <div class="input-group mb-2">
+                        <input type="text" name="choices" class="form-control" placeholder="Варіант відповіді 2" required>
+                        <button type="button" class="btn btn-danger" onclick="removeChoice(this)">Видалити</button>
+                    </div>
+                {% endif %}
+            </div>
+            <button type="button" class="btn btn-secondary mt-2" onclick="addChoice()">Додати варіант</button>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">{% if poll %}Зберегти{% else %}Створити{% endif %}</button>
+        <a href="{% url 'votes:vote_list' %}" class="btn btn-secondary">Скасувати</a>
+    </form>
+</div>
+
+<script>
+function addChoice() {
+    const container = document.getElementById('choices-container');
+    const index = container.children.length + 1;
+    const newChoice = document.createElement('div');
+    newChoice.className = 'input-group mb-2';
+    newChoice.innerHTML = '<input type="text" name="choices" class="form-control" placeholder="Варіант відповіді ' + index + '" required><button type="button" class="btn btn-danger" onclick="removeChoice(this)">Видалити</button>';
+    container.appendChild(newChoice);
+}
+
+function removeChoice(button) {
+    const container = document.getElementById('choices-container');
+    if (container.children.length > 1) {
+        button.closest('.input-group').remove();
+    } else {
+        alert('Повинен бути хоча б один варіант відповіді');
+    }
+}
+</script>
+{% endblock %}
