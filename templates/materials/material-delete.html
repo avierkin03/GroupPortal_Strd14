@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4 p-md-5 text-center">
+                    
+
+                    <h2 class="fw-bold mb-3">Видалення матеріалу</h2>
+                    <p class="mb-4">
+                        Ви впевнені, що хочете видалити матеріал <br>
+                        <span class="text-dark fw-bold">"{{ object.title }}"</span>? 
+                        <br><small class="text-danger">Цю дію неможливо буде скасувати.</small>
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                            <button type="submit" class="btn btn-danger px-5 py-2 fw-bold">
+                                Так
+                            </button>
+                            <a href="{% url 'mater:material-list' %}" class="btn btn-secondary px-5 py-2 fw-bold">
+                                Ні
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
