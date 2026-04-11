@@ -2,47 +2,77 @@
 {% load static %}
 {% block content %}
 <title>materials-list</title>
-
-<br><br>
-<h1 class="text-center">Цікаві Матеріали</h1>
+<br>
+<h1 class="text-center fw-bold">Цікаві Матеріали</h1>
 
 <p class="text-center">На цій сторінці ви зможете знайти корисний матеріал для себе</p>
 <br>
-<div>
+<div class="center mb-2">
     <div>
-        <form method="get">
-            <strong>{{ form.category.label_tag }}</strong>
-            {{ form.category }}
-            <button type="submit" class="btn btn-primary ml-2">Фільтрувати</button>
+        <form method="get" class="row row-cols-lg-auto g-3 align-items-center">
+            <div class="col-12">
+                <strong>{{ form.category.label_tag }}</strong>
+            </div>
+            <div class="col-12">
+                {{ form.category }}
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary ml-2">Фільтрувати</button>
+            </div>
         </form>
     </div>
 </div>
 
-
-
-
-<br><br>
 <div class="center-btn-f">
 {% if user.is_superuser %}
     <a href="{% url 'mater:material-create'%}" class="btn btn-primary">+ додати матеріал</a>
 {% endif %}
 </div>
-<br>
-<div class="center-btn-f">
-<ul class="list-group">
-        {% for mat in materials %}
-    <li>
-        <div class="col-12">
-            {{ mat.title }} |
-            <span class="badge text-bg-info">{{ mat.category }}</span> |
-            {{ mat.material_date|date:"d F Y, H:i" }} |
-            <a href="{% url 'mater:material-dateil' pk=mat.id  %}" class="btn btn-warning">Переглянути</a> 
+
+<div class="container mt-5">
+    <div class="row justify-content-center"> 
+        <div class="col-md-10 col-lg-8"> 
+            
+            {% for mat in materials %}
+            <div class="card shadow-sm mb-3 border-0 rounded-4 overflow-hidden" style="min-height: 140px;">
+                <div class="row g-0 align-items-center h-100">
+
+                    <div class="col-md-9 px-4 py-3 d-flex align-items-center gap-3">
+
+                        <div class="card shadow-sm border-0 bg-light d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; flex-shrink: 0;">
+                            <div class="card-body d-flex align-items-center justify-content-center p-0">
+                                <i class="bi bi-file-richtext text-black" style="font-size: 3rem;"></i>
+                            </div>
+                        </div>
+                    
+                        <div>
+                            <h4 class="fw-bold mb-1">
+                                {{ mat.title }}
+                            </h4>
+                        
+                            <div class="d-flex flex-column mb-1">
+                                <div class="mb-2">
+                                    <span class="badge text-bg-primary">
+                                        {{ mat.category }}
+                                    </span>
+                                </div>
+                                <div class="text-muted small">
+                                    {{ mat.material_date|date:"d F Y, H:i" }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 px-4 py-3 text-end">
+                        <a href="{% url 'mater:material-dateil' pk=mat.id %}" class="btn btn-warning px-4 fw-bold shadow-sm">
+                            Переглянути
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
         </div>
-    </li> 
-        {% empty %}
-            <li>Не знайдено такого матеріалу</li>
-        {% endfor %}
-</ul>
+    </div>
 </div>
 
 

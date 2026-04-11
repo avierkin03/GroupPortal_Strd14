@@ -1,12 +1,9 @@
-/* Звичайна кнопка */
+/* ------Material------ */
+/*  кнопка лайку */
 .button-like-mater {
     background-color: white !important; 
-    color: blue !important;
-
-    /* Видаляємо border: none і transparent */
-    /* Встановлюємо рамку: товщина, стиль (solid), колір */
-    border: 2px solid blue !important; 
-    
+    color: green !important;
+    border: 2px solid green !important; 
     cursor: pointer;
     transition: 0.3s;
     padding: 6px 12px; 
@@ -17,20 +14,16 @@
 
 /* Кнопка, коли лайк ВЖЕ стоїть */
 .button-like-mater.active {
-    background-color: blue !important;
+    background-color: green !important;
     color: white !important;
-    border: 2px solid blue !important; 
+    border: 2px solid green !important; 
 }
 
 /* Ефект при наведенні (щоб було красиво) */
 .button-like-mater:hover {
     opacity: 0.8;
-    background-color: rgb(3, 3, 204) !important; 
+    background-color: rgb(2, 107, 2) !important; 
     color: white !important;
-
-    /* Видаляємо border: none і transparent */
-    /* Встановлюємо рамку: товщина, стиль (solid), колір */
-
 }
 
 .center {
@@ -40,11 +33,10 @@
 }
 
 .center-btn-f {
-    padding-left: 10%;
+    padding-left: 18%;
 }
 
 .carousel-item {
-    /* Робимо фон для порожніх місць (чорний або світло-сірий) */
     background-color: #222; 
     height: 500px; /* Фіксуємо висоту каруселі */
 }
@@ -52,6 +44,7 @@
 .carousel-item img {
     height: 500px;
     width: 100%;
-    /* МАГІЯ ТУТ: вписує фото повністю без обрізки */
     object-fit: contain; 
 }
+
+/* ------Material------ */

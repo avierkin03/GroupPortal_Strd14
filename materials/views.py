@@ -37,7 +37,6 @@ class Materials_DatailView(DetailView):
             context = super().get_context_data(**kwargs)
             # Перевіряємо, чи поставив поточний юзер лайк
             if self.request.user.is_authenticated:
-                # Шукаємо лайк у моделі Like (як у твоєму Like_Material)
                 context["already_liked"] = Like.objects.filter(
                     user=self.request.user, 
                     material=self.object
@@ -133,12 +132,14 @@ class Materials_DeleteView(LoginRequiredMixin, DeleteView):
             return redirect('mater:material-list')
         return super().dispatch(request, *args, **kwargs)
 
+
 class Materials_CompleteView(LoginRequiredMixin, UserMaterial, View):
     def post(self, request, *args, **kwargs):
         materials = self.get_object()
         materials.status = "done"
         materials.save()
         return HttpResponseRedirect(reverse_lazy("mater:material-list"))
+
 
 def Like_Material(request, pk):
     material = get_object_or_404(Material, id=pk)
@@ -148,20 +149,3 @@ def Like_Material(request, pk):
     else:
         Like.objects.create(user=request.user, material=material)     # Поставити лайк
     return redirect('mater:material-dateil', pk=pk)
-
-#def upload_file(request):
-#    if request.method == 'POST':
-#        form = Materials_CreateForm(request.POST, request.FILES) # request.FILES обов'язково
-#        if form.is_valid():
-#            material = form.save(commit=False)
-#            material.author = request.user # Автоматично ставимо автора
-#            material.save()
-#            # Переконайся, що в urls.py є назва 'material-list'
-#            return redirect('mater:material-list')
-#    else:
-#        form = Materials_CreateForm()
-#    return render(request, 'material.html', {'form': form})
-#from django.shortcuts import render
-
-# Create your views here.
-
