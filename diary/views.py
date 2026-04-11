@@ -4,11 +4,7 @@ from .models import Student, Grade
 
 
 class StudentListView(ListView):
-    model = Student
-    context_object_name = "students"
-    template_name = "students/student_list.html"
-
-
+    model = Student2
 class StudentDetailView(DetailView):
     model = Student
     context_object_name = "student"
