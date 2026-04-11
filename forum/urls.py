@@ -6,4 +6,6 @@ urlpatterns = [
     path("forum-create/", views.ForumCreateView.as_view(), name="forum-create"),
     path("/<int:pk>/comments/", views.CommentListView.as_view(), name="forum-comments"),
     path("/<int:pk>/comment-create/", views.CommentCreateView.as_view(), name="forum-comments-create"),
+    path("forum-create/", views.ForumCreateView.as_view(), name="forum-create"),
+    path("<int:pk>/delete/", views.ForumDeleteView.as_view(), name="forum-delete"),    
 ]

@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% block content %}
     <h1>Forum list</h1>
-    <a href="{% url 'forum-comments-create' pk=forum.id %}">Create new Forum</a>
+    <a href="{% url 'forum-comments-create' pk=forum.id %}">Create new comment</a>
     <ul>
         {% for comment in comments %}
             <li>

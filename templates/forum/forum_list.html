@@ -1,10 +1,15 @@
 {% extends 'base.html'%}
 {% block content %}
     <h1>Forum list<h1>
-    <a href="{% url 'forum-create' %}">Create new Forum</a>
+    {% if user.profile.role == 'admin'%}    
+        <a href="{% url 'forum-create' %}">Create new Forum</a>
+    {% endif %}
     <ul>
         {% for forum in forums %}
             <a href="{% url 'forum-comments' pk=forum.id %}">{{ forum.title }}</a>
+            {% if user.profile.role == 'admin'%}    
+                <a href="{% url 'forum-delete' pk=forum.pk %}">Delete</a>
+            {% endif %}
             <p>{{ forum.text }}<p>
         {% empty %}
             <li>No forum found.</li>

@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ForumForm, CommentForm
 from .models import Forum, Comment
 # Create your views here.
 
-class ForumListView(ListView):
+class ForumListView(LoginRequiredMixin, ListView):
     model = Forum
     context_object_name = "forums"
     template_name = "forum/forum_list.html"
@@ -57,3 +58,8 @@ class CommentCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy("forum-comments", kwargs={"pk": self.kwargs["pk"]})
     
+class ForumDeleteView(DeleteView):
+    model = Forum
+    template_name = "forum/forum_delete.html"
+    success_url = reverse_lazy("forum-list")
+
