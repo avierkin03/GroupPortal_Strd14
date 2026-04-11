@@ -1,0 +1,25 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Календар подій</h2>
+
+<div class="card p-4">
+
+    <table class="table table-bordered text-center">
+        <tr>
+            <th>Дата</th>
+            <th>Подія</th>
+        </tr>
+
+        {% for event in events %}
+        <tr>
+            <td>{{ event.date|date:"d.m.Y H:i" }}</td>
+            <td>{{ event.title }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}
