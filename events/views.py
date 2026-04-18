@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Event
 from .forms import EventForm
+from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 def is_admin_or_moderator(user):
     return user.is_staff
@@ -48,3 +50,15 @@ def event_delete(request, pk):
         event.delete()
         return redirect('event_list')
     return render(request, 'events/event_confirm_delete.html', {'event': event})
+
+class EventUpdateView(UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'events/event_form.html'
+    success_url = reverse_lazy('events')
+
+
+class EventDeleteView(DeleteView):
+    model = Event
+    template_name = 'events/event_confirm_delete.html'
+    success_url = reverse_lazy('events')

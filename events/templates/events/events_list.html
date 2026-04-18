@@ -41,3 +41,14 @@
 
 </body>
 </html>
+{% for event in events %}
+    <div>
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.description }}</p>
+        <p><strong>Дата:</strong> {{ event.date }}</p>
+
+        <a href="{% url 'event_edit' event.id %}">Редагувати</a>
+        <a href="{% url 'event_delete' event.id %}">Видалити</a>
+    </div>
+    <hr>
+{% endfor %}
