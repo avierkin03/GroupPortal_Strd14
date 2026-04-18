@@ -7,10 +7,15 @@
     <ul>
         {% for forum in forums %}
             <a href="{% url 'forum-comments' pk=forum.id %}">{{ forum.title }}</a>
+            {% if forum.img %}
+                <img src="{{ forum.img.url }}">
+            {% endif %}
             {% if user.profile.role == 'admin'%}    
                 <a href="{% url 'forum-delete' pk=forum.pk %}">Delete</a>
             {% endif %}
-            <p>{{ forum.text }}<p>
+            <div>
+                <p>{{ forum.text }}</p>
+            </div>
         {% empty %}
             <li>No forum found.</li>
         {% endfor %}
