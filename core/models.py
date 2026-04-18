@@ -29,6 +29,12 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
 
+    def total_logics(self):
+        return sum(grade.logic_points for grade in self.grades.all())
+
+    def total_money(self):
+        return self.total_logics() * 1.5
+    
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()}"
 

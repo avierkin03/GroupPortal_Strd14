@@ -39,6 +39,11 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['default_avatar_url'] = '/static/media/avatars/default_avatar.png' 
+        user_profile = self.object
+        context["grades"] = user_profile.grades.all()
+        context["grades_preview"] = user_profile.grades.order_by('-date')[:5]
+        context["total_logics"] = user_profile.total_logics()
+        context["total_money"] = user_profile.total_money()
         return context
 
 
