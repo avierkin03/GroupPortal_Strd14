@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Редагувати профіль</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+            <label for="{{ form.bio.id_for_label }}">Біографія</label>
+            {{ form.bio }}
+            {{ form.bio.errors }}
+        </div>
+        <div>
+            <label for="{{ form.avatar.id_for_label }}">Аватар</label>
+            {{ form.avatar }}
+            {{ form.avatar.errors }}
+            {% if form.instance.avatar %}
+                <p>Поточний аватар: <img src="{{ form.instance.avatar.url }}" alt="Аватар"></p>
+            {% endif %}
+        </div>
+        <button type="submit">Зберегти</button>
+        <a href="{% url 'core:user_profile' %}">Скасувати</a>
+    </form>
+{% endblock %}

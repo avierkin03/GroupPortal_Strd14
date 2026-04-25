@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<br><br>
+<h2 class="text-center mb-3 fw-bold">{% if form.instance.pk %}Редагувати{% else %}Створити{% endif %} матеріал</h2>
+<div class="center">
+    <p><a href="{% url 'mater:material-list'%}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Назад до матеріалу</a></p>
+</div>
+
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8"> 
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <div class="d-flex flex-column mb-3">
+                            <div class="mb-1">
+                                <strong>Заголовок:</strong>
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.title }}
+                            </div>
+
+                            <div class="mb-1">
+                                <strong>Опис матеріалу:</strong>
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.description }}
+                            </div>
+
+                            <div class="mb-1">
+                                <strong>Категорія:</strong>
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.category }}
+                            </div>
+
+                            <div class="mb-1">
+                                <strong>Тип файлу:</strong>
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.file_type }}
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.material_file }}
+                            </div>
+
+                            <div class="mb-1">
+                                <strong>Допис до файлу чи відео:</strong>
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.subtitle }}
+                            </div>
+
+                            <div class="mb-1">
+                                <strong>Посилання:</strong>
+                            </div>
+                            <div class="mt-1 mb-2">
+                                {{ form.material_url }}
+                            </div>
+
+                            <div class="mb-1">
+                                <strong>Додати зображення:</strong>
+                            </div>
+                            <div id="formset">
+                                {{ formset.management_form }} 
+                            
+                            {% for f in formset %}
+                                <div class="mt-1 mb-2">
+                                    {{ f.image }}
+                                    <label>{{ f.DELETE }} Видалити</label>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <button type="button" id="add-more"class="btn btn-primary mb-4"> Додати ще</button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Зберегти</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const formsetDiv = document.getElementById('formset');
+    const addButton = document.getElementById('add-more');
+    const totalForms = document.querySelector('[name$="TOTAL_FORMS"]');
+    const emptyFormHtml = `{{ formset.empty_form.as_p|escapejs }}`;
+    const MAX_FORMS = 3;
+
+    function checkLimit() {
+        const formCount = parseInt(totalForms.value);
+        addButton.style.display = formCount >= MAX_FORMS ? 'none' : 'inline-block';
+    }
+
+    checkLimit();
+
+    addButton.onclick = function() {
+        const formCount = parseInt(totalForms.value);
+
+        if (formCount < MAX_FORMS) {
+            const newFormHtml = emptyFormHtml.replace(/__prefix__/g, formCount);
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('image-form');
+            wrapper.innerHTML = newFormHtml;
+
+            formsetDiv.appendChild(wrapper);
+            totalForms.value = formCount + 1;
+
+            checkLimit();
+        }
+    };
+});
+</script>
+
+{% endblock %}
