@@ -28,5 +28,6 @@ urlpatterns = [
     path('', include('core.urls', namespace='core')),
     path("announcements/",include("announcements.urls")),
     path('material-list/', include('materials.urls')),
+    path('feedback/', include('feedback.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

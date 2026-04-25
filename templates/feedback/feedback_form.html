@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Залишити відгук</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Відправити</button>
+</form>
+
+<a class="link-btn" href="{% url 'feedback_all' %}">Подивитись всі відгуки</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Відгуки</h2>
+
+<a class="link-btn" href="{% url 'feedback_list' %}">Всі</a> |
+<a class="link-btn" href="{% url 'feedback_unread' %}">Непрочитані</a>
+
+<hr>
+
+{% for fb in feedbacks %}
+    <div class="card {% if not fb.is_read %}unread{% endif %}">
+        <p><strong>{{ fb.name|default:fb.user }}</strong></p>
+        <p>{{ fb.message }}</p>
+        <p class="meta">{{ fb.created_at }}</p>
+        <p class="meta">
+            {{ fb.is_read|yesno:"Прочитано,Не прочитано" }}
+        </p>
+
+        {% if not fb.is_read %}
+            <a class="link-btn" href="{% url 'feedback_read' fb.id %}">
+                Позначити як прочитане
+            </a>
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}

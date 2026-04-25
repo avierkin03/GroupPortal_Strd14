@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Відгуки користувачів</h2>
+
+<h3>Статистика</h3>
+<p><strong>Середня оцінка:</strong> {{ avg_rating|floatformat:1 }}</p>
+<p><strong>Кількість відгуків:</strong> {{ count }}</p>
+
+<hr>
+
+{% for fb in feedbacks %}
+    <div class="card">
+        <p><strong>{{ fb.name|default:fb.user }}</strong></p>
+        <p class="rating">⭐ {{ fb.rating }}/5</p>
+        <p>{{ fb.message }}</p>
+        <p class="meta">{{ fb.created_at }}</p>
+    </div>
+{% endfor %}
+{% endblock %}
